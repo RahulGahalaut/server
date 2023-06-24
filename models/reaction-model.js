@@ -1,22 +1,22 @@
 import mongoose from 'mongoose';
 
-const reactionSchema= new mongoose.Schema({
-    userInfo:{
+const reactionSchema = new mongoose.Schema({
+    userInfo: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    postInfo:{
+    postInfo: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Post"
     },
-    like:{
-        type: Boolean,
-        required:true
+    reaction: {
+        type: String,
+        required: true
     }
-},{
-    timestamps:true
+}, {
+    timestamps: true
 })
 
-const Reaction= new mongoose.model("Reaction",reactionSchema)
+const Reaction = new mongoose.model("Reaction", reactionSchema)
 
 export default Reaction;
