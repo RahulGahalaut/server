@@ -9,31 +9,31 @@ import cors from "cors";
 
 dotenv.config()
 
-const app=express();
+const app = express();
 app.use(cors())
-const mongodbURI=process.env.MONGODB_DATABASE_URI;
+const mongodbURI = process.env.MONGODB_DATABASE_URI;
 
 mongoose.connect(mongodbURI)
-.then((results)=>{
-    console.log("Connected with db!!")
-    app.listen(process.env.PORT,()=>{
-        console.log(`Server Started, Port- ${process.env.PORT}!`)
+    .then((results) => {
+        console.log("Connected with db!!")
+        app.listen(process.env.PORT || 5000, () => {
+            console.log(`Server Started, Port- ${process.env.PORT || 5000}!`)
+        })
     })
-})
-.catch((err)=>{
-    console.log(err)
-})
+    .catch((err) => {
+        console.log(err)
+    })
 
 app.use(express.json())
 
-app.use("/users",userRouter)
-app.use("/posts",postRouter)
-app.use("/comments",commentRouter)
-app.use("/reactions",reactionRouter)
+app.use("/users", userRouter)
+app.use("/posts", postRouter)
+app.use("/comments", commentRouter)
+app.use("/reactions", reactionRouter)
 
 
-app.use((req,res)=>{
-    res.status(401).json({message:"route not defined!"})
+app.use((req, res) => {
+    res.status(401).json({ message: "route not defined!" })
 })
 
 
