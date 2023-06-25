@@ -2,6 +2,7 @@ import User from '../models/user-model.js';
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
+
 export const getUser = async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -30,7 +31,7 @@ export const loginUser = async (req, res) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ userId: user._id }, "thisismysecret"); //process.env.JWT_SECRET
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET); //process.env.JWT_SECRET
 
     res.status(200).json({ token: token, userId: user._id });
   } catch (err) {
@@ -51,14 +52,14 @@ export const signupUser = async (req, res) => {
     }
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, process.env.BCRYPT_ROUND);
 
     // Create the new user
     const newUser = new User({ username: username, password: hashedPassword });
     await newUser.save();
 
     // Generate a JWT token
-    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET || "thisismysecret"); //process.env.JWT_SECRET
+    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET); //process.env.JWT_SECRET
 
     res.status(201).json({ token: token, userId: newUser._id });
   } catch (err) {
